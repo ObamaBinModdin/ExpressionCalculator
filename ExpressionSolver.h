@@ -28,39 +28,6 @@ public:
     static long double solve(std::string& expression);
 
 private:
-    /*
-    * Removes all whitespace from a string.
-    * - Pass a string.
-    * - Returns the string with no whitespaces while leaving all other characters intact and in order.
-    */
-    //static void removeWhiteSpace(std::string& str);
-
-    //static bool isOperator(char& op);
-
-    //static bool isNumber(char& num);
-
-    //static bool isNumeric(char value);
-
-    //static bool isNumeric(std::string value);
-
-    //static double evaluatePostfix(const std::string& postfix);
-
-    //static std::vector<std::string> split(const std::string& source, const std::string& delimiters);
-
-    //static int precedence(char& op);
-
-    //static bool equalOrHigher(char& opOne, char& opTwo);
-
-    //static void replaceTrig(std::string& expression);
-
-    //static std::string replaceUnaryOperators(std::string& expression);
-
-    //static std::string replaceAll(const std::string& source, const std::string& oldValue, const std::string& newValue);
-
-    //static std::string toPostfix(std::string& str);
-
-    //static long double solvePostfix(std::string& expression);
-
     static std::string convertInfixToPostfix(std::string infix);
 
     static bool isMathOperator(char token);
