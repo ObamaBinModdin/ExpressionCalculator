@@ -28,6 +28,17 @@ std::string expressionSolver::convertInfixToPostfix(std::string infix) {
         return std::isspace(static_cast<unsigned char>(c));
         }), infix.end());
 
+    if (infix[infix.length() - 1] == '=')
+    {
+        infix.pop_back();
+
+        if (infix.find('=') != std::string::npos)
+        {
+            std::cout << "ERROR: INVALID '=' PLACEMENT" << std::endl;
+            throw std::invalid_argument{ "INVALID '=' PLACEMENT" };
+        }
+    }
+
     // negate equations marked with '--'
     infix = replaceAll(infix, "--", "");
 
