@@ -34,9 +34,9 @@ private:
 
     static int orderOfOperations(char token);
 
-    static double evaluatePostfix(const std::string& postfix);
+    static long double evaluatePostfix(const std::string& postfix);
 
-    static double calculate(char mathOperator, double value1, double value2);
+    static long double calculate(char mathOperator, long double value1, long double value2);
 
     static bool isNumeric(char value);
 

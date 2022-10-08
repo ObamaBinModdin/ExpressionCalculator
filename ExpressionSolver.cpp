@@ -163,7 +163,7 @@ bool expressionSolver::isMathOperator(char token) {
     // this function checks if operand is a math operator
     switch (std::tolower(token)) {
     case '+': case '-': case '*': case '/':
-    case '%': case '^': case '$': case 'c':
+    case '%': case '^': case 'c':
     case 's': case 't': case 'v': case 'l': case 'n':
         return true;
         break;
@@ -180,7 +180,7 @@ int expressionSolver::orderOfOperations(char token) {
     case 'c': case 's': case 't': case 'v': case 'l': case 'n':
         priority = 5;
         break;
-    case '^': case '$':
+    case '^':
         priority = 4;
         break;
     case '*': case '/': case '%':
@@ -196,11 +196,11 @@ int expressionSolver::orderOfOperations(char token) {
     return priority;
 }// end of orderOfOperations
 
-double expressionSolver::evaluatePostfix(const std::string& postfix) {
+long double expressionSolver::evaluatePostfix(const std::string& postfix) {
     // this function evaluates a postfix expression
         // declare function variables
-    double answer = 0;
-    std::stack<double> doubleStack;
+    long double answer = 0;
+    std::stack<long double> doubleStack;
 
     // split string into tokens to isolate multi digit, negative and decimal
     // numbers, aswell as single digit numbers and math operators
@@ -223,13 +223,13 @@ double expressionSolver::evaluatePostfix(const std::string& postfix) {
         // if expression is a math operator, pop numbers from stack
         // & send the popped numbers to the 'calculate' function
         else if (isMathOperator(token[0]) && (!doubleStack.empty())) {
-            double value1 = 0;
-            double value2 = 0;
+            long double value1 = 0;
+            long double value2 = 0;
             char mathOperator = static_cast<unsigned char>(std::tolower(token[0]));
 
             // if expression is square root, sin, cos,
             // or tan operation only pop stack once
-            if (mathOperator == '$' || mathOperator == 's' || mathOperator == 'c' || mathOperator == 't' || mathOperator == 'v'
+            if (mathOperator == 's' || mathOperator == 'c' || mathOperator == 't' || mathOperator == 'v'
                 || mathOperator == 'l' || mathOperator == 'n') {
                 value2 = 0;
                 value1 = doubleStack.top();
@@ -259,9 +259,9 @@ double expressionSolver::evaluatePostfix(const std::string& postfix) {
     return answer;
 }// end of evaluatePostfix
 
-double expressionSolver::calculate(char mathOperator, double value1, double value2) {
+long double expressionSolver::calculate(char mathOperator, long double value1, long double value2) {
     // this function carries out the actual math process
-    double ans = 0;
+    long double ans = 0;
     switch (std::tolower(mathOperator)) {
     case '+':
         ans = value1 + value2;
@@ -286,9 +286,6 @@ double expressionSolver::calculate(char mathOperator, double value1, double valu
     case '^':
         ans = std::pow(value1, value2);
         break;
-    case '$':
-        ans = std::sqrt(value1);
-        break;
     case 'c':
         ans = std::cos(value1);
         break;
@@ -299,12 +296,17 @@ double expressionSolver::calculate(char mathOperator, double value1, double valu
         ans = std::tan(value1);
         break;
     case 'v':
+        if (std::tan(value1) == 0) throw std::runtime_error("ERROR: COT WAS UNDEFINED\n");
         ans = 1 / std::tan(value1);
         break;
     case 'l':
+        if (value1 < 0) throw std::runtime_error("ERROR: ATTEMPTED TO LOG A NEGATIVE\n");
+        if (value1 == 0) throw std::runtime_error("ERROR: ATTEMPTED TO LOG ZERO\n");
         ans = std::log(value1);
         break;
     case 'n':
+        if (value1 < 0) throw std::runtime_error("ERROR: ATTEMPTED TO LOG A NEGATIVE\n");
+        if (value1 == 0) throw std::runtime_error("ERROR: ATTEMPTED TO LOG ZERO\n");
         ans = std::log10(value1);
         break;
     default:
