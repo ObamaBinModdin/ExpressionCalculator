@@ -80,4 +80,6 @@ private:
     static std::string replaceAll(const std::string& source, const std::string& oldValue, const std::string& newValue);
 
     static void replaceTrig(std::string& expression);
+
+    static void flipOperands(int start, std::string& expression);
 };

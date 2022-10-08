@@ -18,48 +18,64 @@ long double expressionSolver::solve(std::string& expression)
 
 std::string expressionSolver::convertInfixToPostfix(std::string infix) {
     // this function converts an infix expression to postfix
-            // declare function variables
+    // declare function variables
     std::string postfix;
     std::stack<char> charStack;
 
     // remove all whitespace from the string
-    infix.erase(std::remove_if(infix.begin(), infix.end(), [](char c) {
+    infix.erase(std::remove_if(infix.begin(), infix.end(), [](char c) 
+        {
         return std::isspace(static_cast<unsigned char>(c));
         }), infix.end());
 
     // negate equations marked with '--'
-    infix = replaceAll(infix, "(--", "(");
+    infix = replaceAll(infix, "--", "");
+
+    std::cout << infix << std::endl;
 
     // automatically convert negative numbers to have the ~ symbol.
     // this is done so we can distinguish negative numbers and the subtraction symbol
-    for (unsigned x = 0; x < infix.length(); ++x) {
-        if (infix[x] != '-') {
+    for (unsigned x = 0; x < infix.length(); ++x) 
+    {
+        if (infix[x] != '-') 
+        {
             continue;
         }
-        if (x == 0 || infix[x - 1] == '(' || isMathOperator(infix[x - 1])) {
+        if (x == 0 || infix[x - 1] == '(' || isMathOperator(infix[x - 1])) 
+        {
             infix[x] = '~';
+            flipOperands(x, infix);
         }
     }
 
+    std::cout << infix << std::endl;
+
     // loop thru array until there is no more data
-    for (unsigned x = 0; x < infix.length(); ++x) {
+    for (unsigned x = 0; x < infix.length(); ++x) 
+    {
         // place numbers (standard, decimal, & negative)
         // numbers onto the 'postfix' string
-        if (isNumeric(infix[x])) {
-            if (postfix.length() > 0 && !isNumeric(postfix.back())) {
-                if (!std::isspace(postfix.back())) {
+        if (isNumeric(infix[x])) 
+        {
+            if (postfix.length() > 0 && !isNumeric(postfix.back())) 
+            {
+                if (!std::isspace(postfix.back())) 
+                {
                     postfix += " ";
                 }
             }
             postfix += infix[x];
 
         }
-        else if (std::isspace(infix[x])) {
+        else if (std::isspace(infix[x])) 
+        {
             continue;
 
         }
-        else if (isMathOperator(infix[x])) {
-            if (postfix.length() > 0 && !std::isspace(postfix.back())) {
+        else if (isMathOperator(infix[x])) 
+        {
+            if (postfix.length() > 0 && !std::isspace(postfix.back())) 
+            {
                 postfix += " ";
             }
             // use the 'orderOfOperations' function to check equality
@@ -70,7 +86,8 @@ std::string expressionSolver::convertInfixToPostfix(std::string infix) {
                 // place the math operator from the top of the
                 // stack onto the postfix string and continue the
                 // process until complete
-                if (postfix.length() > 0 && !std::isspace(postfix.back())) {
+                if (postfix.length() > 0 && !std::isspace(postfix.back())) 
+                {
                     postfix += " ";
                 }
                 postfix += charStack.top();
@@ -80,9 +97,9 @@ std::string expressionSolver::convertInfixToPostfix(std::string infix) {
             charStack.push(infix[x]);
         }
         // push outer parentheses onto stack
-        else if (infix[x] == '(') {
+        else if (infix[x] == '(') 
+        {
             charStack.push(infix[x]);
-
         }
         else if (infix[x] == ')') {
             // pop the current math operator from the stack
@@ -170,9 +187,6 @@ int expressionSolver::orderOfOperations(char token) {
 double expressionSolver::evaluatePostfix(const std::string& postfix) {
     // this function evaluates a postfix expression
         // declare function variables
-
-    std::cout << postfix << std::endl;
-
     double answer = 0;
     std::stack<double> doubleStack;
 
@@ -315,9 +329,10 @@ std::vector<std::string> expressionSolver::split(const std::string& source, cons
     return results;
 }// end of split
 
-std::string expressionSolver::replaceAll(const std::string& source
-    , const std::string& oldValue, const std::string& newValue) {
-    if (oldValue.empty()) {
+std::string expressionSolver::replaceAll(const std::string& source, const std::string& oldValue, const std::string& newValue) 
+{
+    if (oldValue.empty()) 
+    {
         return source;
     }
     std::string newString;
@@ -362,6 +377,21 @@ void expressionSolver::replaceTrig(std::string& expression)
     expression = std::regex_replace(expression, std::regex("ln"), "l");
 
     expression = std::regex_replace(expression, std::regex("log"), "n");
+}
+
+void expressionSolver::flipOperands(int start, std::string& expression)
+{
+    std::stack<char> charStack;
+
+    for (int index = start + 1; index < expression.length(); index++)
+    {
+        if (expression[index] == '(') charStack.push('(');
+        else if (expression[index] == '-') expression[index] = '+';
+        else if (expression[index] == '+') expression[index] = '-';
+        else if (expression[index] == ')') charStack.pop();
+
+        if (charStack.empty()) break;
+    }
 }
 
 //void expressionSolver::removeWhiteSpace(std::string& str)
