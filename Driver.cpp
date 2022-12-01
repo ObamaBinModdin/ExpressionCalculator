@@ -1,5 +1,6 @@
 #include <iostream>
 #include "ExpressionSolver.h"
+#include "Test.h"
 
 /*
 * Programmer: Oscar Ford
@@ -7,8 +8,24 @@
 * Credit: https://www.programmingnotes.org/6949/cpp-simple-multi-digit-decimal-negative-number-infix-to-postfix-conversion-evaluation/
 */
 
+static void run();
+static void test(long double numberOfExpressions = 100);
+
 int main()
-{  
+{
+    long long input;
+
+    std::cout << "Enter the number of expressions to evaluate: ";
+
+    std::cin >> input;
+
+    std::cout << std::endl;
+
+    test(input);
+}
+
+void run()
+{
     // Displays valid operations and the format to use them.
     std::cout << "Valid operations:" << std::endl;
     std::cout << "x + y to add" << std::endl;
@@ -21,7 +38,7 @@ int main()
     std::cout << "cos(x) for cosine of x" << std::endl;
     std::cout << "sin(x) for sine of x" << std::endl;
     std::cout << "tan(x) for tanget of x" << std::endl;
-    std::cout << "cot(x) for cotanget of x" << std::endl; 
+    std::cout << "cot(x) for cotanget of x" << std::endl;
     std::cout << "ln(x) for natural log of x" << std::endl;
     std::cout << "log(x) for log of base 10 of x" << std::endl;
     std::cout << "() may be used at will but must be closed off" << std::endl;
@@ -79,4 +96,12 @@ int main()
         // Displays 'Input: ' for next user input.
         std::cout << "Input: ";
     }
-}  
+}
+
+void test(long double numberOfExpressions)
+{
+
+
+
+    test::test(numberOfExpressions);
+}

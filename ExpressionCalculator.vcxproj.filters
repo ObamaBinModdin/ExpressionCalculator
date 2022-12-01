@@ -18,6 +18,9 @@
     <ClInclude Include="ExpressionSolver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ExpressionSolver.cpp">
@@ -26,5 +29,11 @@
     <ClCompile Include="Driver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ExpressionSolver.cd" />
   </ItemGroup>
 </Project>
